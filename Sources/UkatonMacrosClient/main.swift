@@ -1,4 +1,4 @@
-import UkatonSwiftMacros
+import UkatonMacros
 
 @EnumName
 enum FlightTicket {

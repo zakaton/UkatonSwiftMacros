@@ -60,7 +60,7 @@ public struct EnumNameMacro: MemberMacro {
 }
 
 @main
-struct UkatonSwiftMacrosPlugin: CompilerPlugin {
+struct UkatonMacrosPlugin: CompilerPlugin {
     let providingMacros: [Macro.Type] = [
         EnumNameMacro.self,
     ]

@@ -1,21 +1,21 @@
 // swift-tools-version: 5.9
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
-import PackageDescription
 import CompilerPluginSupport
+import PackageDescription
 
 let package = Package(
-    name: "UkatonSwiftMacros",
+    name: "UkatonMacros",
     platforms: [.macOS(.v10_15), .iOS(.v13), .tvOS(.v13), .watchOS(.v6), .macCatalyst(.v13)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "UkatonSwiftMacros",
-            targets: ["UkatonSwiftMacros"]
+            name: "UkatonMacros",
+            targets: ["UkatonMacros"]
         ),
         .executable(
-            name: "UkatonSwiftMacrosClient",
-            targets: ["UkatonSwiftMacrosClient"]
+            name: "UkatonMacrosClient",
+            targets: ["UkatonMacrosClient"]
         ),
     ],
     dependencies: [
@@ -27,24 +27,24 @@ let package = Package(
         // Targets can depend on other targets in this package and products from dependencies.
         // Macro implementation that performs the source transformation of a macro.
         .macro(
-            name: "UkatonSwiftMacrosMacros",
+            name: "UkatonMacrosMacros",
             dependencies: [
                 .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
-                .product(name: "SwiftCompilerPlugin", package: "swift-syntax")
+                .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
             ]
         ),
 
         // Library that exposes a macro as part of its API, which is used in client programs.
-        .target(name: "UkatonSwiftMacros", dependencies: ["UkatonSwiftMacrosMacros"]),
+        .target(name: "UkatonMacros", dependencies: ["UkatonMacrosMacros"]),
 
         // A client of the library, which is able to use the macro in its own code.
-        .executableTarget(name: "UkatonSwiftMacrosClient", dependencies: ["UkatonSwiftMacros"]),
+        .executableTarget(name: "UkatonMacrosClient", dependencies: ["UkatonMacros"]),
 
         // A test target used to develop the macro implementation.
         .testTarget(
-            name: "UkatonSwiftMacrosTests",
+            name: "UkatonMacrosTests",
             dependencies: [
-                "UkatonSwiftMacrosMacros",
+                "UkatonMacrosMacros",
                 .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax"),
             ]
         ),
