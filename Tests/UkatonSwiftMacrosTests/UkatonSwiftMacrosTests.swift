@@ -7,40 +7,45 @@ import XCTest
 import UkatonSwiftMacrosMacros
 
 let testMacros: [String: Macro.Type] = [
-    "stringify": StringifyMacro.self,
+    "EnumName": EnumNameMacro.self
 ]
 #endif
 
 final class UkatonSwiftMacrosTests: XCTestCase {
-    func testMacro() throws {
-        #if canImport(UkatonSwiftMacrosMacros)
-        assertMacroExpansion(
-            """
-            #stringify(a + b)
-            """,
-            expandedSource: """
-            (a + b, "a + b")
-            """,
-            macros: testMacros
-        )
-        #else
-        throw XCTSkip("macros are only supported when running tests for the host platform")
-        #endif
-    }
+    func testEnumNameMacro() {
+        assertMacroExpansion("""
 
-    func testMacroWithStringLiteral() throws {
-        #if canImport(UkatonSwiftMacrosMacros)
-        assertMacroExpansion(
-            #"""
-            #stringify("Hello, \(name)")
-            """#,
-            expandedSource: #"""
-            ("Hello, \(name)", #""Hello, \(name)""#)
-            """#,
-            macros: testMacros
-        )
-        #else
-        throw XCTSkip("macros are only supported when running tests for the host platform")
-        #endif
+        @EnumName
+        enum Genre {
+            case horror
+            case comedy
+            case kids
+            case action
+        }
+
+
+        """, expandedSource: """
+
+            @EnumName
+            enum Genre {
+                case horror
+                case comedy
+                case kids
+                case action
+
+                var name: String {
+                    switch self {
+                        case .action:
+                            return "Action"
+                        case .comedy:
+                            return "Comedy"
+                        case .kids:
+                            return "Kids"
+                        case .horror:
+                            return "Horror"
+                    }
+                }
+            }
+        """, macros: testMacros)
     }
 }

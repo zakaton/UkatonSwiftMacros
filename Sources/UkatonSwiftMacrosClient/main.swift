@@ -1,8 +1,16 @@
 import UkatonSwiftMacros
 
-let a = 17
-let b = 25
+@EnumName
+enum FlightTicket {
+    case economy
+    case business
+    case firstClass
+}
 
-let (result, code) = #stringify(a + b)
-
-print("The value \(result) was produced by the code \"\(code)\"")
+@EnumName
+enum Genre {
+    case horror
+    case comedy
+    case kids
+    case action
+}
