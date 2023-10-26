@@ -14,3 +14,6 @@ enum Genre {
     case kids
     case action
 }
+
+@Singleton
+class MyStruct {}

@@ -1,3 +1,5 @@
+// https://github.com/azamsharp/EnumTitleMacro/blob/main/Sources/SharpMacros/SharpMacro.swift#L39
+
 import Foundation
 import SwiftCompilerPlugin
 import SwiftSyntax
@@ -27,7 +29,7 @@ extension String {
     }
 }
 
-public struct EnumNameMacro: MemberMacro {
+public struct EnumName: MemberMacro {
     public static func expansion(of node: SwiftSyntax.AttributeSyntax, providingMembersOf declaration: some SwiftSyntax.DeclGroupSyntax, in context: some SwiftSyntaxMacros.MacroExpansionContext) throws -> [SwiftSyntax.DeclSyntax] {
         // this macro can only be assigned to enums
         guard let enumDel = declaration.as(EnumDeclSyntax.self) else {
@@ -57,11 +59,4 @@ public struct EnumNameMacro: MemberMacro {
 
         return [DeclSyntax(stringLiteral: name)]
     }
-}
-
-@main
-struct UkatonMacrosPlugin: CompilerPlugin {
-    let providingMacros: [Macro.Type] = [
-        EnumNameMacro.self,
-    ]
 }
