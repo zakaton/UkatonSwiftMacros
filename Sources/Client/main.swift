@@ -16,4 +16,5 @@ enum Genre {
 }
 
 @Singleton
+@StaticLogger
 class MyStruct {}

@@ -6,5 +6,6 @@ struct UkatonMacrosPlugin: CompilerPlugin {
     let providingMacros: [Macro.Type] = [
         EnumName.self,
         Singleton.self,
+        StaticLogger.self
     ]
 }
