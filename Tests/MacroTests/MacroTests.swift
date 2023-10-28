@@ -7,7 +7,7 @@ import XCTest
 import Macros
 
 let testMacros: [String: Macro.Type] = [
-    "EnumName": EnumNameMacro.self
+    "EnumName": EnumName.self
 ]
 #endif
 
@@ -17,7 +17,7 @@ final class UkatonMacrosTests: XCTestCase {
 
         @EnumName
         enum Genre {
-            case horror
+            case horror, horrors
             case comedy
             case kids
             case action
@@ -28,7 +28,7 @@ final class UkatonMacrosTests: XCTestCase {
 
             @EnumName
             enum Genre {
-                case horror
+                case horror, horrors
                 case comedy
                 case kids
                 case action
@@ -43,6 +43,8 @@ final class UkatonMacrosTests: XCTestCase {
                             return "Kids"
                         case .horror:
                             return "Horror"
+                        case .horrors:
+                            return "Horrors"
                     }
                 }
             }

@@ -1,3 +1,4 @@
+import OSLog
 import UkatonMacros
 
 @EnumName
@@ -13,6 +14,11 @@ enum Genre {
     case comedy
     case kids
     case action
+}
+
+@EnumName
+enum WifiInformation {
+    case getSsid, setSsid
 }
 
 @Singleton

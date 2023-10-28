@@ -38,9 +38,11 @@ public struct EnumName: MemberMacro {
 
         let members = enumDel.memberBlock.members
         let caseDecl = members.compactMap { $0.decl.as(EnumCaseDeclSyntax.self) }
-        let cases = caseDecl.compactMap {
-            $0.elements.first?.name.text
+        print(caseDecl)
+        let cases = caseDecl.flatMap {
+            $0.elements.compactMap { $0.name.text }
         }
+        print(cases)
 
         var name = """
         var name: String {
