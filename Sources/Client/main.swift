@@ -8,7 +8,7 @@ enum FlightTicket {
     case firstClass
 }
 
-@EnumName
+@EnumName(accessLevel: "public")
 enum Genre {
     case horror
     case comedy

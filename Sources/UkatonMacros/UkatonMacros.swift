@@ -1,6 +1,10 @@
 /// A macro that adds a "name" property to enums
+/// - Parameters:
+///   - accessLevel: An optional access level
 @attached(member, names: named(name))
-public macro EnumName() = #externalMacro(module: "Macros", type: "EnumName")
+public macro EnumName(
+    accessLevel: String? = nil
+) = #externalMacro(module: "Macros", type: "EnumName")
 
 /// A macro that adds a singleton to a class
 @attached(member, names: named(init), named(shared))

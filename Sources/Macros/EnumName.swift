@@ -36,16 +36,24 @@ public struct EnumName: MemberMacro {
             throw EnumInitError.onlyApplicableToEnum
         }
 
+        let accessLevel: String? = if case let .argumentList(arguments) = node.arguments {
+            Array(arguments)
+                .first(where: { $0.label?.text == "accessLevel" })?
+                .expression
+                .as(StringLiteralExprSyntax.self)?
+                .representedLiteralValue
+        } else {
+            nil
+        }
+
         let members = enumDel.memberBlock.members
         let caseDecl = members.compactMap { $0.decl.as(EnumCaseDeclSyntax.self) }
-        print(caseDecl)
         let cases = caseDecl.flatMap {
             $0.elements.compactMap { $0.name.text }
         }
-        print(cases)
 
         var name = """
-        var name: String {
+        \(accessLevel ?? "") var name: String {
             switch self {
         """
 
