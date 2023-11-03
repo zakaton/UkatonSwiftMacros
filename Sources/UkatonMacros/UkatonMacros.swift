@@ -7,8 +7,12 @@ public macro EnumName(
 ) = #externalMacro(module: "Macros", type: "EnumName")
 
 /// A macro that adds a singleton to a class
+/// - Parameters:
+///   - isMutable: make shared value "var" or "let"
 @attached(member, names: named(init), named(shared))
-public macro Singleton() = #externalMacro(module: "Macros", type: "Singleton")
+public macro Singleton(
+    isMutable: Bool = false
+) = #externalMacro(module: "Macros", type: "Singleton")
 
 /// Adds a static `logger` member to the type.
 /// - Parameters:

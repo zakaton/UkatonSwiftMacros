@@ -21,6 +21,6 @@ enum WifiInformation {
     case getSsid, setSsid
 }
 
-@Singleton
+@Singleton(isMutable: true)
 @StaticLogger
 class MyStruct {}

@@ -7,7 +7,8 @@ import XCTest
 import Macros
 
 let testMacros: [String: Macro.Type] = [
-    "EnumName": EnumName.self
+    "EnumName": EnumName.self,
+    "Singleton": Singleton.self
 ]
 #endif
 
@@ -26,28 +27,43 @@ final class UkatonMacrosTests: XCTestCase {
 
         """, expandedSource: """
 
-            @EnumName
-            enum Genre {
-                case horror, horrors
-                case comedy
-                case kids
-                case action
+        enum Genre {
+            case horror, horrors
+            case comedy
+            case kids
+            case action
 
-                var name: String {
-                    switch self {
-                        case .action:
-                            return "Action"
-                        case .comedy:
-                            return "Comedy"
-                        case .kids:
-                            return "Kids"
-                        case .horror:
-                            return "Horror"
-                        case .horrors:
-                            return "Horrors"
-                    }
+            var name: String {
+                switch self {
+                    case .action:
+                        return "Action"
+                    case .comedy:
+                        return "Comedy"
+                    case .kids:
+                        return "Kids"
+                    case .horror:
+                        return "Horror"
+                    case .horrors:
+                        return "Horrors"
                 }
             }
+        }
+        """, macros: testMacros)
+    }
+
+    func testSingleton() {
+        assertMacroExpansion("""
+        @Singleton(isMutable: true)
+        class MyStruct {
+        }
+        """, expandedSource: """
+        class MyStruct {
+
+            private init() {
+            }
+
+            static var shared = MyStruct()
+        }
         """, macros: testMacros)
     }
 }

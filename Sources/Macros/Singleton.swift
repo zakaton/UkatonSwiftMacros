@@ -43,8 +43,22 @@ public struct Singleton: MemberMacro {
             })
         }
 
+        let isMutableString: String? = if case let .argumentList(arguments) = node.arguments {
+            Array(arguments)
+                .first(where: { $0.label?.text == "isMutable" })?
+                .expression
+                .as(BooleanLiteralExprSyntax.self)?
+                .literal
+                .text
+
+        } else {
+            nil
+        }
+
+        let isMutable = Bool(isMutableString ?? "false") ?? false
+
         let shared = VariableDeclSyntax(modifiers: modifiers,
-                                        .let, name: "shared",
+                                        isMutable ? .var : .let, name: "shared",
                                         initializer: sharedInitializer)
 
         return [DeclSyntax(initializer),
