@@ -8,7 +8,8 @@ import Macros
 
 let testMacros: [String: Macro.Type] = [
     "EnumName": EnumName.self,
-    "Singleton": Singleton.self
+    "Singleton": Singleton.self,
+    "StaticLogger": StaticLogger.self
 ]
 #endif
 
@@ -63,6 +64,23 @@ final class UkatonMacrosTests: XCTestCase {
             }
 
             static var shared = MyStruct()
+        }
+        """, macros: testMacros)
+    }
+
+    func testStaticLogger() {
+        assertMacroExpansion("""
+        import OSLog
+
+        @StaticLogger()
+        class MyStruct {
+        }
+        """, expandedSource: """
+        import OSLog
+        class MyStruct {
+
+            static let logger: Logger? = .init(subsystem: Bundle.main.bundleIdentifier ?? "", category: "MyStruct")
+            var logger: Logger? { Self.logger }
         }
         """, macros: testMacros)
     }

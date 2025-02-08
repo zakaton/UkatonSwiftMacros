@@ -38,9 +38,19 @@ public struct StaticLogger: MemberMacro {
             nil
         }
 
+        let disabled: Bool = if case let .argumentList(arguments) = node.arguments {
+            Array(arguments)
+                .first(where: { $0.label?.text == "disabled" })?
+                .expression
+                .as(BooleanLiteralExprSyntax.self)?
+                .literal.text == "true"
+        } else {
+            false
+        }
+
         let syntaxNodeString = """
-        static let logger = Logger(subsystem: \(subsystem != nil ? "\"\(subsystem!)\"" : "Bundle.main.bundleIdentifier ?? \"\""), category: \"\(category != nil ? category! : declarationName)\")
-        var logger: Logger { Self.logger }
+        static let logger: Logger? = \(disabled ? "nil" : ".init(subsystem: \(subsystem != nil ? "\"\(subsystem!)\"" : "Bundle.main.bundleIdentifier ?? \"\""), category: \"\(category != nil ? category! : declarationName)\")") 
+        var logger: Logger? { Self.logger }
         """
 
         return try [DeclSyntax(VariableDeclSyntax(.init(stringLiteral: syntaxNodeString)))]

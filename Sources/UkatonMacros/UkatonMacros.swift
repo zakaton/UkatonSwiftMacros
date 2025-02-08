@@ -18,8 +18,10 @@ public macro Singleton(
 /// - Parameters:
 ///   - subsystem: An optional subsystem for the logger to use. Defaults to `Bundle.main.bundleIdentifier`.
 ///   - category: An optional category for the logger to use. Defaults to `String(describing: Self.self)`.
+///   - disabled: Whether to view the logs or not. Defaults to  `false`.
 @attached(member, names: named(logger))
 public macro StaticLogger(
     subsystem: String? = nil,
-    category: String? = nil
+    category: String? = nil,
+    disabled: Bool = false
 ) = #externalMacro(module: "Macros", type: "StaticLogger")
